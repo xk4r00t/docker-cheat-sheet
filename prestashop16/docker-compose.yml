@@ -8,12 +8,12 @@ services:
     ports:
       - 3307:3306
   presta:
-    image: prestashop/prestashop
+    image: prestashop/prestashop:1.6
     restart: unless-stopped
     links:
       - db:db
     volumes:
-      - /home/ubuadmin/workspace/container_storage/pslast/:/var/www/html
+      - /home/ubuadmin/workspace/container_storage/ps16/:/var/www/html
     ports:
       - 8080:80
     env_file:
