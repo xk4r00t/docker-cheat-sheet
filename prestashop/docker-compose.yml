@@ -7,6 +7,8 @@ services:
       MYSQL_ROOT_PASSWORD: admin
     ports:
       - 3307:3306
+    networks:
+      - avasize_avnet
   presta:
     image: prestashop/prestashop
     restart: unless-stopped
@@ -14,9 +16,15 @@ services:
       - db:db
     volumes:
       - /home/ubuadmin/workspace/container_storage/pslast/:/var/www/html
+      - ./conf_file/000-default.apache.80.and.8080.conf:/etc/apache2/sites-enabled/000-default.conf
     ports:
       - 8080:80
     env_file:
       - prestashop.env
     depends_on:
       - db
+    networks:
+      - avasize_avnet
+networks:
+  avasize_avnet:
+    external: true

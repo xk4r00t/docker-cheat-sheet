@@ -1,4 +1,8 @@
 # prestashop
+## add host presta in your host file
+```
+127.0.0.1       presta
+```
 ## using docker compose
 ```shell
 docker-compose up
