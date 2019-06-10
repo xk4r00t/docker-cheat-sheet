@@ -13,6 +13,7 @@ services:
       WORDPRESS_DB_NAME: wp
     volumes:
       - /home/ubuadmin/workspace/container_storage/wplast/:/var/www/html
+      - ./conf_file/000-default.apache.80.and.8081.conf:/etc/apache2/sites-enabled/000-default.conf
     networks:
       - avasize_avnet
 
