@@ -1,0 +1,12 @@
+---
+# Example: 
+# ansible-playbook deploy.yml -i servers
+# ansible-playbook deploy.yml -i servers --extra-vars "ansible_ssh_user=customuser"
+- name: deploy on all hosts
+  hosts: all
+  remote_user: "root"
+
+  roles:
+    - deploy-last-build
+
+...

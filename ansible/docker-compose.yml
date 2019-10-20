@@ -1,0 +1,24 @@
+# Ansible testing on debian empty server
+# run with : docker-compose exec ansible ansible-playbook projects/ansible-deploy-test/deploy.yml -i projects/ansible-deploy-test/servers
+version: '3'
+
+services:
+  ansible:
+    build: ./.docker/ansible/
+    command: tail -f /dev/null
+    volumes:
+      - ./projects/:/runner/projects/
+    networks:
+      - gitlab_gitlabnet
+
+  srv1:
+    # image: debian
+    build: ./.docker/debian/
+    networks:
+      gitlab_gitlabnet:
+        aliases:
+          - srv1
+
+networks:
+  gitlab_gitlabnet:
+    external: true

@@ -1,0 +1,8 @@
+---
+
+- name: "Get last directory struct"
+  become: yes
+  shell: "ls -lah"
+  register: cmd_output_1
+
+- debug: msg="{{cmd_output_1.stdout}}"
