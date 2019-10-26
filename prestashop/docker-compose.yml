@@ -10,7 +10,7 @@ services:
     networks:
       - avasize_avnet
   presta:
-    image: prestashop/prestashop
+    image: prestashop/prestashop:1.7
     restart: unless-stopped
     links:
       - db:db

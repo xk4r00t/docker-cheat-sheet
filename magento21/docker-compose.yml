@@ -1,0 +1,32 @@
+version: '3.0'
+services:
+  web:
+    image: alexcheng/magento2:2.1
+    ports:
+      - "23443:443"
+    links:
+      - db
+    env_file:
+      - env
+    volumes:
+      - ./ssl/:/etc/apache2/ssl
+      - ./ssl.conf:/etc/apache2/sites-enabled/ssl.conf
+      - /home/ubuadmin/workspace/container_storage/magentolastcode/:/var/www/html/app/code/
+    networks:
+      avasize_avnet:
+        aliases:
+          - magentodemoshop
+    command: >
+      bash -c "mkdir -p /etc/apache2/ssl/ && a2enmod ssl && service apache2 restart && /sbin/my_init && tail -f /dev/null"/
+  db:
+    image: mysql:5.6.23
+    ports:
+      - "3376:3308"
+    env_file:
+      - env
+    networks:
+      - avasize_avnet
+
+networks:
+  avasize_avnet:
+    external: true
