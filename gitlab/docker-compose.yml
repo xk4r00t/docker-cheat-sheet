@@ -24,12 +24,9 @@ version: '2'
 #docker-compose exec gitlab-runner bash -c 'vi /etc/gitlab-runner/config.toml'
 ## Add this line in [runners.docker]
 #extra_hosts = ["localhost:172.17.0.1"]
-## OR
-#network_mode = "host"
 
 services:
   redis:
-    restart: always
     image: sameersbn/redis:4.0.9-2
     command:
     - --loglevel warning
@@ -39,7 +36,6 @@ services:
       - gitlabnet
 
   postgresql:
-    restart: always
     image: sameersbn/postgresql:10-2
     volumes:
     - postgresql-data:/var/lib/postgresql:Z
@@ -54,7 +50,6 @@ services:
   gitlab-runner:
     image: gitlab/gitlab-runner:alpine
     container_name: gitlab-runner
-    restart: always
     depends_on:
       - gitlab
     volumes:
@@ -67,7 +62,6 @@ services:
       - gitlabnet
 
   gitlab:
-    restart: always
     image: sameersbn/gitlab:12.3.5
     depends_on:
     - redis
