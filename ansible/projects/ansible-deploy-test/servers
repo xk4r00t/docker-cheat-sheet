@@ -1,5 +1,6 @@
 [debian_servers]
 srv1
+srv2
 
 [all:vars]
 ansible_connection=ssh

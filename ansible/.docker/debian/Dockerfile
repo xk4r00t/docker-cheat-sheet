@@ -14,5 +14,10 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
+# Install node
+RUN apt-get install -y curl software-properties-common
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN apt-get update && apt-get install -y nodejs
+
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]

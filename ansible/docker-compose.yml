@@ -15,9 +15,12 @@ services:
     # image: debian
     build: ./.docker/debian/
     networks:
-      gitlab_gitlabnet:
-        aliases:
-          - srv1
+      - gitlab_gitlabnet
+
+  srv2:
+    build: ./.docker/debian/
+    networks:
+      - gitlab_gitlabnet
 
 networks:
   gitlab_gitlabnet:
