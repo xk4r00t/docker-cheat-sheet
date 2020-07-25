@@ -17,6 +17,7 @@ services:
       - ./conf_file/ssl.conf:/etc/apache2/sites-enabled/ssl.conf
       - ./conf_file/000-default.apache.80.and.8081.conf:/etc/apache2/sites-enabled/000-default.conf
       - ./conf_file/ssl/:/etc/apache2/ssl
+      - ./conf_file/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     networks:
       - avasize_avnet
     command: >
