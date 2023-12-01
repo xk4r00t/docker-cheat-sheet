@@ -1,40 +1,43 @@
-version: '2'
+version: '3'
 services:
-  db:
+  mysql:
+    container_name: presta8-mysql
     image: mysql:5.7
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: admin
-#    command: bash -c "mysql -u root -padmin -e 'CREATE DATABASE prestashop;'"
-    ports:
-      - 3307:3306
+      MYSQL_DATABASE: prestashop
     networks:
-      - avasize_avnet
-  presta:
-    #image: prestashop/prestashop:1.7
-    #image: prestashop/prestashop:1.7.7.0
-    #image: prestashop/prestashop:1.7.7.1-apache 
-    #image: prestashop/prestashop:1.7-7.1
-    #image: prestashop/prestashop:1.7.6.0
-    #image: prestashop/prestashop:1.7.6.9-7.2-apache
-    #image: prestashop/prestashop:1.6-7.0-apache
-    image: prestashop/prestashop:1.7-7.0
+      - prestashop_network
+  mailcatcher:
+    container_name: presta8-mailcatcher
+    image: sj26/mailcatcher:latest
+    ports:
+      # - "21025:1025"
+      - "21080:1080"
+    networks:
+      - prestashop_network
+
+  prestashop:
+    container_name: presta8-prestashop
+    image: prestashop/prestashop:8.1.2
     restart: unless-stopped
-    links:
-      - db:db
+    depends_on:
+      - mysql
+    ports:
+      - 8081:80
     volumes:
       - /home/ubuadmin/workspace/container_storage/pslast/:/var/www/html
       - ./conf_file/000-default.apache.80.and.8080.conf:/etc/apache2/sites-enabled/000-default.conf
-    ports:
-      - 8080:80
-    env_file:
-      - prestashop.env
-    depends_on:
-      - db
+    environment:
+      DB_SERVER: presta8-mysql
+      DB_NAME: prestashop
+      DB_USER: root
+      DB_PASSWD: admin
+      PS_INSTALL_AUTO: 1
+      PS_DEV_MODE: 1
+      PS_DOMAIN: presta8:8081
     networks:
-      avasize_avnet:
-        aliases:
-          - presta17
+      - prestashop_network
 networks:
-  avasize_avnet:
-    external: true
+    prestashop_network:

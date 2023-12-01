@@ -1,0 +1,40 @@
+version: '2'
+services:
+  db:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+#    command: bash -c "mysql -u root -padmin -e 'CREATE DATABASE prestashop;'"
+    ports:
+      - 3307:3306
+    networks:
+      - avasize_avnet
+  presta:
+    #image: prestashop/prestashop:1.7
+    #image: prestashop/prestashop:1.7.7.0
+    #image: prestashop/prestashop:1.7.7.1-apache 
+    #image: prestashop/prestashop:1.7-7.1
+    #image: prestashop/prestashop:1.7.6.0
+    #image: prestashop/prestashop:1.7.6.9-7.2-apache
+    #image: prestashop/prestashop:1.6-7.0-apache
+    image: prestashop/prestashop:1.7-7.0
+    restart: unless-stopped
+    links:
+      - db:db
+    volumes:
+      - /home/ubuadmin/workspace/container_storage/pslast/:/var/www/html
+      - ./conf_file/000-default.apache.80.and.8080.conf:/etc/apache2/sites-enabled/000-default.conf
+    ports:
+      - 8080:80
+    env_file:
+      - prestashop.env
+    depends_on:
+      - db
+    networks:
+      avasize_avnet:
+        aliases:
+          - presta17
+networks:
+  avasize_avnet:
+    external: true
